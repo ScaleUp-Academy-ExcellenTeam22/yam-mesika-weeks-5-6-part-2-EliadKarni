@@ -1,5 +1,7 @@
+from datetime import datetime
 """
-The code receives a file path and row. Then, it prints the files content in the received line.
+The code receives a file path and row. Then, it returns the file's content in the received line.
+If exception raised, The code write it on the logs file with time stamp.
 """
 
 
@@ -9,6 +11,19 @@ class NotEnoughLines(Exception):
     """
     def __init__(self):
         pass
+
+    def __str__(self):
+        return "Not enough lines in the file."
+
+
+def print_error_to_logs(error: Exception) -> None:
+    """
+    The function prints the received error to the logs file with time stamp
+    :param error: The raised exception.
+    :return: None.
+    """
+    with open("logs.txt", "a") as file:
+        file.write(f"Time: {datetime.now()}, Error: {str(error)}\n")
 
 
 def get_line_from_file(file_path: str, line_number: int) -> str:
@@ -20,6 +35,10 @@ def get_line_from_file(file_path: str, line_number: int) -> str:
     :return: The path's file content in the wanted line.
     """
     try:
+        if type(line_number) != int:
+            raise TypeError("Line number type is not str.")
+        if line_number <= 0:
+            raise ValueError("Illegal line number value.")
         with open(file_path, "r") as file:
             counter = 0
             for line in file:
@@ -27,16 +46,9 @@ def get_line_from_file(file_path: str, line_number: int) -> str:
                 if counter == line_number:
                     return line
         raise NotEnoughLines
-    except FileNotFoundError:
-        with open("log.txt", "a") as file:
-            file.writelines("file not found\n")
-    except NotEnoughLines:
-        with open("log.txt", "a") as file:
-            file.writelines("not enough lines\n")
-    except NotEnoughLines:
-        with open("log.txt", "a") as file:
-            file.writelines("not enough lines\n")
+    except (FileNotFoundError, NotEnoughLines, ValueError, TypeError) as error:
+        print_error_to_logs(error)
 
 
 if __name__ == "__main__":
-    print(get_line_from_file("Hello.txt", 5))
+    print(get_line_from_file("Hello.txt", 1))
