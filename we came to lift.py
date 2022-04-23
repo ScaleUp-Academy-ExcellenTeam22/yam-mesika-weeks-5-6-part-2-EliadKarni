@@ -4,6 +4,9 @@ The code receives a file path and row. Then, it prints the files content in the 
 
 
 class NotEnoughLines(Exception):
+    """
+    The exception raised if the wanted line is not exist in the file.
+    """
     def __init__(self):
         pass
 
@@ -11,9 +14,10 @@ class NotEnoughLines(Exception):
 def get_line_from_file(file_path: str, line_number: int) -> str:
     """
     The function returns the line string in the path's file in the received line.
+    If Exception raised, the function print it to the logs/txt file.
     :param file_path: The file's path.
     :param line_number: The wanted line in the file.
-    :return:
+    :return: The path's file content in the wanted line.
     """
     try:
         with open(file_path, "r") as file:
