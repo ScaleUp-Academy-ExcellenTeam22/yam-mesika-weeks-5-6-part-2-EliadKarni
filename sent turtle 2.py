@@ -5,15 +5,15 @@ The code is simulates a PostOffice which allows users to mail each other.
 
 
 class Message:
-    def __init__(self, id, title, body, sender):
+    def __init__(self, id_num, title, body, sender):
         """The ctor creates a new Message object.
 
-        :param int id: The message id.
+        :param int id_num: The message id.
         :param str title: The message title.
         :param body: The message body.
         :param sender: The message title.
         """
-        self.id = id
+        self.id = id_num
         self.title = title
         self.body = body
         self.sender = sender
@@ -127,5 +127,3 @@ if __name__ == "__main__":
                              message_body="Tell me Now!3", urgent=True)
     print(post_office.read_inbox("Michal"))
     print(post_office.search_inbox('Michal', "Tel"))
-    
-
